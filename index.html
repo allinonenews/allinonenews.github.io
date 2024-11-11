@@ -42,31 +42,17 @@
 <body>
   <script>
     window.addEventListener('load', function(ev) {
-      // Download main.dart.js
-
-      const loading = document.createElement('div');
-      document.body.appendChild(loading);
-      loading.textContent = "Loading Entrypoint...";
-      _flutter.loader.load({
-        onEntrypointLoaded: async function(engineInitializer) {
-          loading.textContent = "Initializing engine...";
-          const appRunner = await engineInitializer.initializeEngine();
-
-          loading.textContent = "Running app...";
-          await appRunner.runApp();
+      // Download main.dart.jsz
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        },
+        onEntrypointLoaded: function(engineInitializer) {
+          engineInitializer.initializeEngine().then(function(appRunner) {
+            appRunner.runApp();
+          });
         }
       });
-
-      // _flutter.loader.loadEntrypoint({
-      //   serviceWorker: {
-      //     serviceWorkerVersion: serviceWorkerVersion,
-      //   },
-      //   onEntrypointLoaded: function(engineInitializer) {
-      //     engineInitializer.initializeEngine().then(function(appRunner) {
-      //       appRunner.runApp();
-      //     });
-      //   }
-      // });
     });
   </script>
 </body>
