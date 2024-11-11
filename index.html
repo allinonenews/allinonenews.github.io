@@ -29,7 +29,7 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>ad_free_news_app</title>
+  <title>All in one News</title>
   <link rel="manifest" href="manifest.json">
 
   <script>
@@ -37,22 +37,34 @@
     const serviceWorkerVersion = flutter_service_worker_version
   </script>
   <!-- This script adds the flutter initialization JS code -->
-  <script src="flutter_bootstrap.js" defer></script>
+  <script src="flutter_bootstrap.js" async></script>
 </head>
 <body>
   <script>
     window.addEventListener('load', function(ev) {
       // Download main.dart.js
-      _flutter.loader.load({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
-            appRunner.runApp();
-          });
-        }
-      });
+      // _flutter.loader.load({
+      //   serviceWorker: {
+      //     serviceWorkerVersion: serviceWorkerVersion,
+      //   },
+      //   onEntrypointLoaded: function(engineInitializer) {
+      //     engineInitializer.initializeEngine().then(function(appRunner) {
+      //       appRunner.runApp();
+      //     });
+      //   }
+      // });
+      const loading = document.createElement('div');
+document.body.appendChild(loading);
+loading.textContent = "Loading App...";
+_flutter.loader.load({
+  onEntrypointLoaded: async function(engineInitializer) {
+    loading.textContent = "Please wait...";
+    const appRunner = await engineInitializer.initializeEngine();
+
+    loading.textContent = "Running app...";
+    await appRunner.runApp();
+  }
+});
     });
   </script>
 </body>
